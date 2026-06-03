@@ -3,1225 +3,339 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TableTek Systems — Restaurant Technology</title>
+<title>TableTek Systems — Restaurant Technology | Houston, TX</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #0a0a0a;
-    --black-mid: #111111;
-    --black-light: #1a1a1a;
-    --black-border: #222222;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-dim: #8a6e2f;
-    --gold-glow: rgba(201,168,76,0.15);
-    --white: #f5f0e8;
-    --white-dim: rgba(245,240,232,0.6);
-    --white-faint: rgba(245,240,232,0.08);
-  }
+:root {
+  --black:#0a0a0a;
+  --black-mid:#111111;
+  --black-light:#1a1a1a;
+  --black-border:#222222;
+  --gold:#c9a84c;
+  --gold-light:#e8c97a;
+  --gold-dim:#8a6e2f;
+  --gold-glow:rgba(201,168,76,0.13);
+  --white:#f5f0e8;
+  --white-dim:rgba(245,240,232,0.6);
+  --white-faint:rgba(245,240,232,0.08);
+  --border:rgba(245,240,232,0.1);
+  --border2:rgba(245,240,232,0.18);
+  --radius:8px;
+  --radius2:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;font-weight:300;background:var(--black);color:var(--white);overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 60px;
+  background:rgba(10,10,10,0.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(201,168,76,0.1);
+  transition:padding .3s;
+}
+nav.scrolled{padding:13px 60px}
+.nav-logo{display:flex;align-items:baseline;gap:9px;text-decoration:none}
+.nav-logo-main{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--white);letter-spacing:.04em}
+.nav-logo-main span{color:var(--gold)}
+.nav-logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--white-dim);font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--gold-light)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:transparent!important;border:1px solid var(--gold);color:var(--gold)!important;padding:7px 20px;border-radius:2px;transition:background .2s,color .2s!important}
+.nav-cta:hover{background:var(--gold)!important;color:var(--black)!important}
+.nav-cta::after{display:none!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:transparent;border:none;padding:4px}
+.hamburger span{display:block;width:22px;height:1px;background:var(--gold)}
 
-  html { scroll-behavior: smooth; }
+/* ── HERO ── */
+#home{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:120px 60px 80px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 62% 40%,rgba(201,168,76,.06) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%,rgba(201,168,76,.04) 0%,transparent 60%),
+    linear-gradient(180deg,#0a0a0a 0%,#0f0e0c 100%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at center,black 30%,transparent 80%);
+}
+.hero-content{position:relative;z-index:2;max-width:1100px;width:100%}
+.hero-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;font-size:.73rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:26px;display:flex;align-items:center;gap:14px;
+  opacity:0;animation:fadeUp .8s .2s forwards;
+}
+.hero-eyebrow::before{content:'';display:block;width:36px;height:1px;background:var(--gold)}
+.hero-headline{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6.2rem);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:10px;
+  opacity:0;animation:fadeUp .9s .35s forwards;
+}
+.hero-headline strong{font-weight:700;color:var(--gold-light)}
+.hero-subhead{
+  font-size:1rem;font-weight:300;color:var(--white-dim);max-width:580px;line-height:1.75;margin-bottom:48px;
+  opacity:0;animation:fadeUp .9s .5s forwards;
+}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:fadeUp .9s .65s forwards}
+.btn-primary{
+  background:var(--gold);color:var(--black);border:none;padding:14px 34px;
+  font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;display:inline-block;border-radius:2px;transition:background .2s,transform .15s,box-shadow .2s;
+}
+.btn-primary:hover{background:var(--gold-light);box-shadow:0 8px 28px rgba(201,168,76,.28)}
+.btn-secondary{
+  background:transparent;color:var(--white);border:1px solid rgba(245,240,232,.22);padding:14px 34px;
+  font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;display:inline-block;border-radius:2px;transition:border-color .2s,color .2s;
+}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.hero-tagline{
+  position:absolute;bottom:40px;right:60px;
+  font-family:'Barlow Condensed',sans-serif;font-size:.67rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-dim);
+  writing-mode:vertical-rl;opacity:0;animation:fadeIn 1s 1s forwards;
+}
+.hero-scroll{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:7px;opacity:0;animation:fadeIn 1s 1.2s forwards;
+}
+.hero-scroll span{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim)}
+.scroll-line{width:1px;height:46px;background:linear-gradient(to bottom,var(--gold-dim),transparent);animation:scrollPulse 2s infinite}
 
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Barlow', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-    cursor: default;
-  }
+/* ── SHARED ── */
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);opacity:.4}
+section{padding:96px 60px}
+.inner{max-width:1200px;margin:0 auto}
+.section-label{
+  font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:13px;margin-bottom:18px;
+}
+.section-label::before{content:'';display:block;width:28px;height:1px;background:var(--gold)}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:300;line-height:1.1;color:var(--white);margin-bottom:22px}
+.section-title strong{font-weight:700;color:var(--gold-light)}
+.section-body{font-size:.96rem;font-weight:300;color:var(--white-dim);line-height:1.8;max-width:560px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
 
-  /* ─── NOISE OVERLAY ─── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
-  }
+/* ── ABOUT ── */
+#about{background:var(--black-mid);position:relative;overflow:hidden}
+#about::before{
+  content:'TT';position:absolute;right:-30px;top:50%;transform:translateY(-50%);
+  font-family:'Cormorant Garamond',serif;font-size:20rem;font-weight:700;color:rgba(201,168,76,.025);
+  pointer-events:none;line-height:1;user-select:none;
+}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.about-visual{position:relative;height:400px}
+.about-card{
+  position:absolute;background:var(--black-light);border:1px solid var(--black-border);border-radius:2px;padding:28px;
+  transition:transform .3s,border-color .3s;
+}
+.about-card:hover{border-color:var(--gold-dim);transform:translateY(-4px)}
+.about-card.c1{top:0;left:0;width:65%}
+.about-card.c2{bottom:40px;right:0;width:65%}
+.about-card h4{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--white);margin-bottom:7px}
+.about-card p{font-size:.84rem;font-weight:300;color:var(--white-dim);line-height:1.65}
+.about-card svg{width:34px;height:34px;margin-bottom:13px;color:var(--gold)}
+.about-stat{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:var(--gold);color:var(--black);padding:13px 18px;text-align:center;z-index:2;border-radius:2px;
+}
+.about-stat .num{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;line-height:1;display:block}
+.about-stat .lbl{font-family:'Barlow Condensed',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 
-  /* ─── SCROLLBAR ─── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--black); }
-  ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+/* ── WHY ── */
+#why{background:var(--black)}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--black-border);border:1px solid var(--black-border);margin-top:56px}
+.why-item{background:var(--black-mid);padding:44px 32px;transition:background .3s;position:relative;overflow:hidden}
+.why-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .3s}
+.why-item:hover{background:var(--black-light)}
+.why-item:hover::before{transform:scaleX(1)}
+.why-num{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;color:rgba(201,168,76,.11);line-height:1;margin-bottom:18px;transition:color .3s}
+.why-item:hover .why-num{color:rgba(201,168,76,.22)}
+.why-item h3{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--white);margin-bottom:10px}
+.why-item p{font-size:.84rem;font-weight:300;color:var(--white-dim);line-height:1.7}
 
-  /* ─── NAV ─── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 60px;
-    background: rgba(10,10,10,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(201,168,76,0.12);
-    transition: padding 0.3s;
-  }
-  nav.scrolled { padding: 14px 60px; }
+/* ── SERVICES ── */
+#services{background:var(--black-mid)}
+.services-intro{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end;margin-bottom:64px}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.svc-card{
+  background:var(--black);border:1px solid var(--black-border);border-radius:2px;padding:36px 32px;
+  transition:border-color .3s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;
+}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.svc-card:hover{border-color:rgba(201,168,76,.28);transform:translateY(-5px);box-shadow:0 18px 56px rgba(0,0,0,.5),0 0 36px rgba(201,168,76,.04)}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-icon-ring{width:46px;height:46px;border:1px solid var(--gold-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:22px;transition:border-color .3s,background .3s}
+.svc-card:hover .svc-icon-ring{border-color:var(--gold);background:var(--gold-glow)}
+.svc-icon-ring svg{width:21px;height:21px;color:var(--gold)}
+.svc-card h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--white);margin-bottom:10px}
+.svc-card p{font-size:.84rem;font-weight:300;color:var(--white-dim);line-height:1.7;margin-bottom:22px}
+.svc-list{list-style:none;border-top:1px solid var(--black-border);padding-top:18px;display:flex;flex-direction:column;gap:7px}
+.svc-list li{font-size:.77rem;font-weight:400;color:var(--white-dim);display:flex;align-items:center;gap:9px}
+.svc-list li::before{content:'';display:block;width:14px;height:1px;background:var(--gold);flex-shrink:0}
 
-  .nav-logo {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    text-decoration: none;
-  }
-  .nav-logo-main {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.7rem;
-    font-weight: 700;
-    color: var(--white);
-    letter-spacing: 0.04em;
-  }
-  .nav-logo-main span { color: var(--gold); }
-  .nav-logo-sub {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    color: var(--gold-dim);
-    text-transform: uppercase;
-  }
+/* ── INDUSTRIES ── */
+#industries{background:var(--black)}
+.ind-header{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end;margin-bottom:60px}
+.ind-strip{display:flex;border:1px solid var(--black-border)}
+.ind-item{flex:1;padding:44px 20px;text-align:center;border-right:1px solid var(--black-border);transition:background .3s;cursor:default;position:relative;overflow:hidden}
+.ind-item:last-child{border-right:none}
+.ind-item::before{content:'';position:absolute;inset:0;background:var(--gold-glow);opacity:0;transition:opacity .3s}
+.ind-item:hover::before{opacity:1}
+.ind-icon{font-size:1.9rem;margin-bottom:13px;display:block}
+.ind-item h4{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--white);margin-bottom:6px;position:relative}
+.ind-item p{font-size:.75rem;color:var(--white-dim);line-height:1.5;position:relative}
 
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    list-style: none;
-  }
-  .nav-links a {
-    text-decoration: none;
-    color: var(--white-dim);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-    position: relative;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0;
-    width: 0; height: 1px;
-    background: var(--gold);
-    transition: width 0.3s;
-  }
-  .nav-links a:hover { color: var(--gold-light); }
-  .nav-links a:hover::after { width: 100%; }
+/* ── PROCESS ── */
+#process{background:var(--black-mid)}
+.process-header{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:end;margin-bottom:0}
+.process-track{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:64px;position:relative}
+.process-track::before{content:'';position:absolute;top:34px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),var(--gold-dim),var(--gold-dim),transparent);opacity:.45}
+.process-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 16px}
+.step-circle{
+  width:68px;height:68px;border:1px solid var(--gold-dim);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;background:var(--black-mid);
+  margin-bottom:22px;position:relative;z-index:1;transition:border-color .3s,background .3s;
+}
+.process-step:hover .step-circle{border-color:var(--gold);background:var(--gold-glow)}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold)}
+.step-title{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--white);margin-bottom:8px}
+.step-desc{font-size:.79rem;font-weight:300;color:var(--white-dim);line-height:1.6}
 
-  .nav-cta {
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold) !important;
-    padding: 8px 22px;
-    border-radius: 1px;
-    transition: background 0.2s, color 0.2s !important;
-  }
-  .nav-cta:hover {
-    background: var(--gold) !important;
-    color: var(--black) !important;
-  }
-  .nav-cta::after { display: none !important; }
+/* ── TESTIMONIALS ── */
+#testimonials{background:var(--black);position:relative;overflow:hidden}
+#testimonials::before{content:'"';position:absolute;top:-60px;left:-20px;font-family:'Cormorant Garamond',serif;font-size:28rem;color:rgba(201,168,76,.023);pointer-events:none;line-height:1}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.test-card{background:var(--black-light);border:1px solid var(--black-border);border-radius:2px;padding:36px 32px;position:relative;transition:border-color .3s,transform .3s}
+.test-card:hover{border-color:rgba(201,168,76,.22);transform:translateY(-4px)}
+.test-card::before{content:'"';position:absolute;top:18px;right:24px;font-family:'Cormorant Garamond',serif;font-size:3.6rem;color:var(--gold);opacity:.28;line-height:1}
+.stars{color:var(--gold);font-size:.85rem;letter-spacing:2px;margin-bottom:18px}
+.test-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:var(--white);line-height:1.65;font-style:italic;margin-bottom:22px}
+.test-author{font-family:'Barlow Condensed',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-dim)}
 
-  /* ─── HERO ─── */
-  #home {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    padding: 120px 60px 80px;
-  }
+/* ── CTA BANNER ── */
+#cta{background:var(--gold);padding:84px 60px;position:relative;overflow:hidden}
+#cta::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 20px,rgba(0,0,0,.03) 20px,rgba(0,0,0,.03) 40px)}
+.cta-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:56px;position:relative}
+.cta-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:700;color:var(--black);margin-bottom:8px;line-height:1.1}
+.cta-text p{font-size:.96rem;color:rgba(10,10,10,.62);font-weight:400;max-width:480px;line-height:1.6}
+.cta-actions{display:flex;gap:14px;flex-shrink:0}
+.btn-dark{background:var(--black);color:var(--gold);border:none;padding:14px 34px;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;border-radius:2px;transition:background .2s,transform .15s}
+.btn-dark:hover{background:#1a1a1a;transform:translateY(-2px)}
+.btn-outline-dark{background:transparent;color:var(--black);border:2px solid var(--black);padding:12px 34px;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;border-radius:2px;transition:background .2s,color .2s}
+.btn-outline-dark:hover{background:var(--black);color:var(--gold)}
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 60%),
-      linear-gradient(180deg, #0a0a0a 0%, #0f0e0c 100%);
-  }
+/* ── CONTACT ── */
+#contact{background:var(--black-mid);padding:96px 60px}
+.contact-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:96px;align-items:start}
+.contact-info h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:300;color:var(--white);margin-bottom:20px;line-height:1.1}
+.contact-info h2 strong{font-weight:700;color:var(--gold-light)}
+.contact-info p{font-size:.92rem;color:var(--white-dim);line-height:1.75;margin-bottom:44px}
+.contact-details{display:flex;flex-direction:column;gap:18px}
+.contact-detail{display:flex;align-items:flex-start;gap:14px}
+.cd-icon{width:38px;height:38px;border:1px solid var(--gold-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cd-icon svg{width:15px;height:15px;color:var(--gold)}
+.cd-text .lbl{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:2px}
+.cd-text .val{font-size:.92rem;color:var(--white);font-weight:400}
+.cd-text .val a{color:var(--gold);text-decoration:none;transition:color .2s}
+.cd-text .val a:hover{color:var(--gold-light)}
+.contact-form{background:var(--black);border:1px solid var(--black-border);border-radius:2px;padding:44px}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--white);margin-bottom:32px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:7px}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;background:var(--black-light);border:1px solid var(--black-border);border-radius:2px;
+  padding:11px 14px;font-family:'Barlow',sans-serif;font-size:.88rem;font-weight:300;color:var(--white);outline:none;transition:border-color .2s;
+  appearance:none;
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(245,240,232,.18)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold-dim)}
+.form-group textarea{resize:vertical;min-height:96px}
+.form-group select option{background:var(--black-light)}
+.form-submit{
+  width:100%;background:var(--gold);color:var(--black);border:none;padding:14px;
+  font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  cursor:pointer;border-radius:2px;margin-top:6px;transition:background .2s,transform .15s;
+}
+.form-submit:hover{background:var(--gold-light);transform:translateY(-2px)}
 
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at center, black 30%, transparent 80%);
-  }
+/* ── FOOTER ── */
+footer{background:var(--black);border-top:1px solid var(--black-border);padding:64px 60px 36px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:56px;margin-bottom:56px}
+.footer-brand .logo{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--white);margin-bottom:5px}
+.footer-brand .logo span{color:var(--gold)}
+.footer-brand .tagline{font-family:'Barlow Condensed',sans-serif;font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:18px}
+.footer-brand p{font-size:.84rem;color:var(--white-dim);line-height:1.7;max-width:270px}
+.footer-col h4{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:9px}
+.footer-col ul li a{text-decoration:none;font-size:.84rem;color:var(--white-dim);transition:color .2s}
+.footer-col ul li a:hover{color:var(--gold-light)}
+.footer-bottom{border-top:1px solid var(--black-border);padding-top:28px;display:flex;align-items:center;justify-content:space-between}
+.footer-bottom p{font-size:.75rem;color:rgba(245,240,232,.28);font-weight:300}
+.footer-bottom .tline{font-family:'Barlow Condensed',sans-serif;font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim)}
 
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 1100px;
-    width: 100%;
-  }
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:.4}50%{opacity:1}}
 
-  .hero-eyebrow {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 28px;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.2s forwards;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .hero-eyebrow::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--gold);
-  }
-
-  .hero-headline {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.2rem, 7vw, 6.5rem);
-    font-weight: 300;
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    color: var(--white);
-    margin-bottom: 12px;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.35s forwards;
-  }
-  .hero-headline strong {
-    font-weight: 700;
-    color: var(--gold-light);
-  }
-
-  .hero-subhead {
-    font-size: 1.05rem;
-    font-weight: 300;
-    color: var(--white-dim);
-    max-width: 600px;
-    line-height: 1.7;
-    margin-bottom: 50px;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.5s forwards;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.9s 0.65s forwards;
-  }
-
-  .btn-primary {
-    background: var(--gold);
-    color: var(--black);
-    border: none;
-    padding: 15px 36px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 1px;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.4s;
-  }
-  .btn-primary:hover { background: var(--gold-light); box-shadow: 0 8px 30px rgba(201,168,76,0.3); }
-  .btn-primary:hover::after { transform: translateX(100%); }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--white);
-    border: 1px solid rgba(245,240,232,0.25);
-    padding: 15px 36px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 1px;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-
-  .hero-tagline {
-    position: absolute;
-    bottom: 40px;
-    right: 60px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    writing-mode: vertical-rl;
-    opacity: 0;
-    animation: fadeIn 1s 1s forwards;
-  }
-
-  .hero-scroll {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    animation: fadeIn 1s 1.2s forwards;
-  }
-  .hero-scroll span {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-  }
-  .scroll-line {
-    width: 1px;
-    height: 50px;
-    background: linear-gradient(to bottom, var(--gold-dim), transparent);
-    animation: scrollPulse 2s infinite;
-  }
-
-  /* ─── SECTION SHARED ─── */
-  section { padding: 100px 60px; }
-
-  .section-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 1px;
-    background: var(--gold);
-  }
-
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 4vw, 3.6rem);
-    font-weight: 300;
-    line-height: 1.1;
-    color: var(--white);
-    margin-bottom: 24px;
-  }
-  .section-title strong { font-weight: 700; color: var(--gold-light); }
-
-  .section-body {
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--white-dim);
-    line-height: 1.8;
-    max-width: 580px;
-  }
-
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
-    margin: 0;
-    opacity: 0.4;
-  }
-
-  /* ─── ABOUT ─── */
-  #about {
-    background: var(--black-mid);
-    position: relative;
-    overflow: hidden;
-  }
-  #about::before {
-    content: 'TT';
-    position: absolute;
-    right: -40px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22rem;
-    font-weight: 700;
-    color: rgba(201,168,76,0.03);
-    pointer-events: none;
-    line-height: 1;
-    user-select: none;
-  }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .about-visual {
-    position: relative;
-    height: 420px;
-  }
-  .about-card {
-    position: absolute;
-    background: var(--black-light);
-    border: 1px solid var(--black-border);
-    border-radius: 2px;
-    padding: 32px;
-    transition: transform 0.3s, border-color 0.3s;
-  }
-  .about-card:hover { border-color: var(--gold-dim); transform: translateY(-4px); }
-  .about-card.c1 { top: 0; left: 0; width: 65%; }
-  .about-card.c2 { bottom: 40px; right: 0; width: 65%; }
-  .about-card .card-icon {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 16px;
-    color: var(--gold);
-  }
-  .about-card h4 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 8px;
-  }
-  .about-card p {
-    font-size: 0.85rem;
-    font-weight: 300;
-    color: var(--white-dim);
-    line-height: 1.6;
-  }
-  .about-stat-line {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--gold);
-    color: var(--black);
-    padding: 14px 20px;
-    text-align: center;
-    z-index: 2;
-    border-radius: 1px;
-  }
-  .about-stat-line .num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1;
-    display: block;
-  }
-  .about-stat-line .label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  /* ─── WHY US ─── */
-  #why {
-    background: var(--black);
-  }
-  .why-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--black-border);
-    border: 1px solid var(--black-border);
-    max-width: 1200px;
-    margin: 60px auto 0;
-  }
-  .why-item {
-    background: var(--black-mid);
-    padding: 48px 36px;
-    transition: background 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .why-item::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transition: transform 0.3s;
-  }
-  .why-item:hover { background: var(--black-light); }
-  .why-item:hover::before { transform: scaleX(1); }
-  .why-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3.5rem;
-    font-weight: 300;
-    color: rgba(201,168,76,0.12);
-    line-height: 1;
-    margin-bottom: 20px;
-    transition: color 0.3s;
-  }
-  .why-item:hover .why-num { color: rgba(201,168,76,0.25); }
-  .why-item h3 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: 12px;
-  }
-  .why-item p {
-    font-size: 0.88rem;
-    font-weight: 300;
-    color: var(--white-dim);
-    line-height: 1.7;
-  }
-
-  /* ─── SERVICES ─── */
-  #services {
-    background: var(--black-mid);
-  }
-  .services-intro {
-    max-width: 1200px;
-    margin: 0 auto 70px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: end;
-  }
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .service-card {
-    background: var(--black);
-    border: 1px solid var(--black-border);
-    border-radius: 2px;
-    padding: 40px 36px;
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .service-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 1px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s;
-  }
-  .service-card:hover {
-    border-color: rgba(201,168,76,0.3);
-    transform: translateY(-6px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(201,168,76,0.05);
-  }
-  .service-card:hover::after { transform: scaleX(1); }
-
-  .service-icon {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 24px;
-    position: relative;
-  }
-  .service-icon-ring {
-    width: 48px;
-    height: 48px;
-    border: 1px solid var(--gold-dim);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.3s, background 0.3s;
-  }
-  .service-card:hover .service-icon-ring {
-    border-color: var(--gold);
-    background: var(--gold-glow);
-  }
-  .service-icon-ring svg {
-    width: 22px;
-    height: 22px;
-    color: var(--gold);
-  }
-
-  .service-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.45rem;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 12px;
-  }
-  .service-card p {
-    font-size: 0.88rem;
-    font-weight: 300;
-    color: var(--white-dim);
-    line-height: 1.7;
-    margin-bottom: 24px;
-  }
-  .service-list {
-    list-style: none;
-    border-top: 1px solid var(--black-border);
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .service-list li {
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: var(--white-dim);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .service-list li::before {
-    content: '';
-    display: block;
-    width: 16px;
-    height: 1px;
-    background: var(--gold);
-    flex-shrink: 0;
-  }
-
-  /* ─── INDUSTRIES ─── */
-  #industries {
-    background: var(--black);
-    position: relative;
-  }
-  .industries-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .industries-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: end;
-    margin-bottom: 70px;
-  }
-  .industries-strip {
-    display: flex;
-    gap: 0;
-    border: 1px solid var(--black-border);
-  }
-  .industry-item {
-    flex: 1;
-    padding: 48px 24px;
-    text-align: center;
-    border-right: 1px solid var(--black-border);
-    transition: background 0.3s;
-    cursor: default;
-    position: relative;
-    overflow: hidden;
-  }
-  .industry-item:last-child { border-right: none; }
-  .industry-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gold-glow);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .industry-item:hover::before { opacity: 1; }
-  .industry-item .ind-icon {
-    font-size: 2rem;
-    margin-bottom: 16px;
-    display: block;
-  }
-  .industry-item h4 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: 8px;
-    position: relative;
-  }
-  .industry-item p {
-    font-size: 0.78rem;
-    color: var(--white-dim);
-    line-height: 1.5;
-    position: relative;
-  }
-
-  /* ─── PROCESS ─── */
-  #process {
-    background: var(--black-mid);
-  }
-  .process-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .process-track {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0;
-    margin-top: 70px;
-    position: relative;
-  }
-  .process-track::before {
-    content: '';
-    position: absolute;
-    top: 36px;
-    left: 10%;
-    right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold-dim), var(--gold-dim), transparent);
-    opacity: 0.5;
-  }
-  .process-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 0 20px;
-    position: relative;
-  }
-  .step-circle {
-    width: 72px;
-    height: 72px;
-    border: 1px solid var(--gold-dim);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--black-mid);
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 1;
-    transition: border-color 0.3s, background 0.3s;
-  }
-  .process-step:hover .step-circle {
-    border-color: var(--gold);
-    background: var(--gold-glow);
-  }
-  .step-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--gold);
-  }
-  .step-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: 10px;
-  }
-  .step-desc {
-    font-size: 0.82rem;
-    font-weight: 300;
-    color: var(--white-dim);
-    line-height: 1.6;
-  }
-
-  /* ─── TESTIMONIALS ─── */
-  #testimonials {
-    background: var(--black);
-    position: relative;
-    overflow: hidden;
-  }
-  #testimonials::before {
-    content: '"';
-    position: absolute;
-    top: -60px;
-    left: -20px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 30rem;
-    color: rgba(201,168,76,0.025);
-    pointer-events: none;
-    line-height: 1;
-  }
-  .testimonials-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 60px;
-  }
-  .testimonial-card {
-    background: var(--black-light);
-    border: 1px solid var(--black-border);
-    border-radius: 2px;
-    padding: 40px 36px;
-    position: relative;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-  .testimonial-card:hover {
-    border-color: rgba(201,168,76,0.25);
-    transform: translateY(-4px);
-  }
-  .testimonial-card::before {
-    content: '"';
-    position: absolute;
-    top: 20px;
-    right: 28px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 4rem;
-    color: var(--gold);
-    opacity: 0.3;
-    line-height: 1;
-  }
-  .stars {
-    color: var(--gold);
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-  }
-  .testimonial-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem;
-    font-weight: 400;
-    color: var(--white);
-    line-height: 1.65;
-    font-style: italic;
-    margin-bottom: 24px;
-  }
-  .testimonial-author {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-  }
-
-  /* ─── CTA BANNER ─── */
-  #cta {
-    background: var(--gold);
-    padding: 90px 60px;
-    position: relative;
-    overflow: hidden;
-  }
-  #cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 20px,
-        rgba(0,0,0,0.03) 20px,
-        rgba(0,0,0,0.03) 40px
-      );
-  }
-  .cta-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 60px;
-    position: relative;
-  }
-  .cta-text h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 700;
-    color: var(--black);
-    margin-bottom: 10px;
-    line-height: 1.1;
-  }
-  .cta-text p {
-    font-size: 1rem;
-    color: rgba(10,10,10,0.65);
-    font-weight: 400;
-    max-width: 500px;
-    line-height: 1.6;
-  }
-  .cta-actions {
-    display: flex;
-    gap: 16px;
-    flex-shrink: 0;
-  }
-  .btn-dark {
-    background: var(--black);
-    color: var(--gold);
-    border: none;
-    padding: 15px 36px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 1px;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .btn-dark:hover { background: #1a1a1a; transform: translateY(-2px); }
-  .btn-outline-dark {
-    background: transparent;
-    color: var(--black);
-    border: 2px solid var(--black);
-    padding: 13px 36px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    border-radius: 1px;
-    transition: background 0.2s, color 0.2s;
-  }
-  .btn-outline-dark:hover { background: var(--black); color: var(--gold); }
-
-  /* ─── CONTACT ─── */
-  #contact {
-    background: var(--black-mid);
-    padding: 100px 60px;
-  }
-  .contact-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 100px;
-    align-items: start;
-  }
-  .contact-info h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 300;
-    color: var(--white);
-    margin-bottom: 24px;
-    line-height: 1.1;
-  }
-  .contact-info h2 strong { font-weight: 700; color: var(--gold-light); }
-  .contact-info p {
-    font-size: 0.95rem;
-    color: var(--white-dim);
-    line-height: 1.7;
-    margin-bottom: 48px;
-  }
-  .contact-details {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .contact-detail {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  .contact-detail-icon {
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--gold-dim);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .contact-detail-icon svg { width: 16px; height: 16px; color: var(--gold); }
-  .contact-detail-text .label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    margin-bottom: 3px;
-  }
-  .contact-detail-text .value {
-    font-size: 0.95rem;
-    color: var(--white);
-    font-weight: 400;
-  }
-
-  /* ─── FORM ─── */
-  .contact-form {
-    background: var(--black);
-    border: 1px solid var(--black-border);
-    border-radius: 2px;
-    padding: 48px;
-  }
-  .form-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 36px;
-  }
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .form-group {
-    margin-bottom: 20px;
-  }
-  .form-group label {
-    display: block;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    margin-bottom: 8px;
-  }
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    background: var(--black-light);
-    border: 1px solid var(--black-border);
-    border-radius: 1px;
-    padding: 12px 16px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: var(--white);
-    outline: none;
-    transition: border-color 0.2s;
-    appearance: none;
-  }
-  .form-group input::placeholder,
-  .form-group textarea::placeholder { color: rgba(245,240,232,0.2); }
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus { border-color: var(--gold-dim); }
-  .form-group textarea { resize: vertical; min-height: 100px; }
-  .form-group select option { background: var(--black-light); }
-
-  .form-submit {
-    width: 100%;
-    background: var(--gold);
-    color: var(--black);
-    border: none;
-    padding: 15px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 1px;
-    margin-top: 8px;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
-
-  /* ─── FOOTER ─── */
-  footer {
-    background: var(--black);
-    border-top: 1px solid var(--black-border);
-    padding: 70px 60px 40px;
-  }
-  .footer-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .footer-top {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
-    gap: 60px;
-    margin-bottom: 60px;
-  }
-  .footer-brand .logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 6px;
-  }
-  .footer-brand .logo span { color: var(--gold); }
-  .footer-brand .tagline {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    margin-bottom: 20px;
-  }
-  .footer-brand p {
-    font-size: 0.88rem;
-    color: var(--white-dim);
-    line-height: 1.7;
-    max-width: 280px;
-  }
-  .footer-col h4 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 20px;
-  }
-  .footer-col ul { list-style: none; }
-  .footer-col ul li {
-    margin-bottom: 10px;
-  }
-  .footer-col ul li a {
-    text-decoration: none;
-    font-size: 0.88rem;
-    color: var(--white-dim);
-    transition: color 0.2s;
-  }
-  .footer-col ul li a:hover { color: var(--gold-light); }
-
-  .footer-bottom {
-    border-top: 1px solid var(--black-border);
-    padding-top: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .footer-bottom p {
-    font-size: 0.78rem;
-    color: rgba(245,240,232,0.3);
-    font-weight: 300;
-  }
-  .footer-bottom .tagline-full {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-  }
-
-  /* ─── ANIMATIONS ─── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(28px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s, transform 0.7s;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
-  .reveal-delay-5 { transition-delay: 0.5s; }
-
-  /* ─── MOBILE MENU ─── */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 4px;
-  }
-  .hamburger span {
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: var(--gold);
-    transition: transform 0.3s, opacity 0.3s;
-  }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 1024px) {
-    nav { padding: 20px 32px; }
-    section { padding: 80px 32px; }
-    .about-grid, .services-intro, .industries-header,
-    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
-    .about-visual { height: 300px; }
-    .services-grid { grid-template-columns: repeat(2, 1fr); }
-    .why-grid { grid-template-columns: repeat(2, 1fr); }
-    .process-track { grid-template-columns: repeat(3, 1fr); gap: 30px; }
-    .process-track::before { display: none; }
-    .industries-strip { flex-wrap: wrap; }
-    .industry-item { flex: 1 1 33%; border-bottom: 1px solid var(--black-border); }
-    .footer-top { grid-template-columns: 1fr 1fr; }
-    .cta-inner { flex-direction: column; gap: 36px; }
-    .hero-tagline { display: none; }
-    #about { padding: 80px 32px; }
-    #cta { padding: 70px 32px; }
-    footer { padding: 60px 32px 32px; }
-  }
-
-  @media (max-width: 768px) {
-    nav { padding: 16px 24px; }
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-    section { padding: 60px 24px; }
-    .hero-headline { font-size: 2.8rem; }
-    .services-grid { grid-template-columns: 1fr; }
-    .why-grid { grid-template-columns: 1fr; }
-    .testimonials-grid { grid-template-columns: 1fr; }
-    .process-track { grid-template-columns: repeat(2, 1fr); }
-    .form-row { grid-template-columns: 1fr; }
-    .footer-top { grid-template-columns: 1fr; }
-    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-    .contact-form { padding: 32px 24px; }
-    #cta { padding: 60px 24px; }
-    footer { padding: 50px 24px 28px; }
-    .industries-strip { flex-direction: column; }
-    .industry-item { flex: none; border-right: none; }
-  }
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav,#home,section,#contact,#cta,footer{padding-left:32px;padding-right:32px}
+  .about-grid,.services-intro,.ind-header,.process-header,.contact-inner{grid-template-columns:1fr;gap:44px}
+  .about-visual{height:280px}
+  .services-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .process-track{grid-template-columns:repeat(3,1fr)}
+  .process-track::before{display:none}
+  .ind-strip{flex-wrap:wrap}
+  .ind-item{flex:1 1 33%;border-bottom:1px solid var(--black-border)}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .cta-inner{flex-direction:column;gap:32px}
+  .hero-tagline{display:none}
+}
+@media(max-width:768px){
+  nav{padding:14px 22px}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  section,#contact,footer{padding:56px 22px}
+  #home{padding:100px 22px 70px}
+  #cta{padding:56px 22px}
+  .hero-headline{font-size:2.7rem}
+  .services-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .test-grid{grid-template-columns:1fr}
+  .process-track{grid-template-columns:repeat(2,1fr)}
+  .form-row{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:10px;text-align:center}
+  .contact-form{padding:28px 20px}
+  .ind-strip{flex-direction:column}
+  .ind-item{flex:none;border-right:none}
+}
 </style>
 </head>
 <body>
 
-<!-- ─── NAVIGATION ─── -->
+<!-- ── NAV ── -->
 <nav id="navbar">
   <a href="#home" class="nav-logo">
     <span class="nav-logo-main">Table<span>Tek</span></span>
@@ -1234,72 +348,49 @@
     <li><a href="#process">Process</a></li>
     <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
   </ul>
-  <div class="hamburger" onclick="toggleMobileMenu()" id="ham">
-    <span></span><span></span><span></span>
-  </div>
+  <button class="hamburger" onclick="toggleMenu()" id="ham" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- ─── HERO ─── -->
-<section id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-
-  <div class="hero-content">
-    <div class="hero-eyebrow">Restaurant Technology Specialists</div>
-    <h1 class="hero-headline">
-      Smart Restaurant<br>
-      <strong>Technology.</strong><br>
-      Real Support.
-    </h1>
-    <p class="hero-subhead">
-      TableTek Systems delivers reliable POS solutions, network infrastructure, cable management, installation services, maintenance, and expert technical support for restaurants and hospitality businesses.
-    </p>
-    <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Request a Consultation</a>
-      <a href="#contact" class="btn-secondary">Contact Support</a>
+<!-- ── HERO ── -->
+<section id="home" style="padding:0">
+  <div id="home" style="min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 60px 80px">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Houston Restaurant Technology</div>
+      <h1 class="hero-headline">Smart Restaurant<br><strong>Technology.</strong><br>Real Support.</h1>
+      <p class="hero-subhead">TableTek Systems delivers reliable POS solutions, network infrastructure, cable management, installation services, maintenance, and expert technical support for Houston restaurants and hospitality businesses.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Request a Consultation</a>
+        <a href="tel:8327795587" class="btn-secondary">Call (832) 779-5587</a>
+      </div>
     </div>
-  </div>
-
-  <span class="hero-tagline">Restaurant Systems · Smart Solutions · Real Support</span>
-
-  <div class="hero-scroll">
-    <span>Explore</span>
-    <div class="scroll-line"></div>
+    <span class="hero-tagline">Restaurant Systems · Smart Solutions · Real Support</span>
+    <div class="hero-scroll"><span>Explore</span><div class="scroll-line"></div></div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ─── ABOUT ─── -->
+<!-- ── ABOUT ── -->
 <section id="about">
-  <div class="about-grid">
+  <div class="inner about-grid">
     <div>
       <div class="section-label reveal">About TableTek</div>
-      <h2 class="section-title reveal reveal-delay-1">Technology That Keeps Your Restaurant <strong>Running</strong></h2>
-      <p class="section-body reveal reveal-delay-2">
-        At TableTek Systems, we understand that technology is the backbone of modern restaurant operations. From point-of-sale systems and network infrastructure to ongoing maintenance and support, we provide comprehensive technology solutions designed specifically for restaurants, cafés, food trucks, bars, and hospitality businesses.
-      </p>
+      <h2 class="section-title reveal d1">Technology That Keeps Your Restaurant <strong>Running</strong></h2>
+      <p class="section-body reveal d2">At TableTek Systems, we understand that technology is the backbone of modern restaurant operations. From point-of-sale systems and network infrastructure to ongoing maintenance and support, we provide comprehensive technology solutions designed specifically for restaurants, cafés, food trucks, bars, and hospitality businesses in Houston, TX.</p>
       <br><br>
-      <p class="section-body reveal reveal-delay-3">
-        Our goal is simple: help your business operate efficiently, reduce downtime, and maximize customer satisfaction through reliable technology and expert support.
-      </p>
+      <p class="section-body reveal d3">Our goal is simple: help your business operate efficiently, reduce downtime, and maximize customer satisfaction through reliable technology and expert support.</p>
     </div>
-    <div class="about-visual reveal reveal-delay-2">
+    <div class="about-visual reveal d2">
       <div class="about-card c1">
-        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         <h4>End-to-End Solutions</h4>
-        <p>From planning and installation to maintenance and support — we handle everything under one roof.</p>
+        <p>From planning and installation to maintenance and support — everything under one roof.</p>
       </div>
-      <div class="about-stat-line">
-        <span class="num">100%</span>
-        <span class="label">Hospitality Focused</span>
-      </div>
+      <div class="about-stat"><span class="num">100%</span><span class="lbl">Hospitality Focused</span></div>
       <div class="about-card c2">
-        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <h4>Reliable Support</h4>
         <p>Fast response times and dependable technical assistance whenever you need it most.</p>
       </div>
@@ -1309,373 +400,185 @@
 
 <div class="divider"></div>
 
-<!-- ─── WHY US ─── -->
+<!-- ── WHY ── -->
 <section id="why">
-  <div style="max-width:1200px;margin:0 auto;">
+  <div class="inner">
     <div class="section-label reveal">Why TableTek</div>
-    <h2 class="section-title reveal reveal-delay-1">Why Businesses <strong>Trust Us</strong></h2>
-  </div>
-  <div class="why-grid reveal reveal-delay-2">
-    <div class="why-item">
-      <div class="why-num">01</div>
-      <h3>Industry Expertise</h3>
-      <p>Specialized technology solutions tailored for restaurants and hospitality operations — we speak your language.</p>
-    </div>
-    <div class="why-item">
-      <div class="why-num">02</div>
-      <h3>Reliable Support</h3>
-      <p>Fast response times and dependable technical assistance when you need it most. We're never far away.</p>
-    </div>
-    <div class="why-item">
-      <div class="why-num">03</div>
-      <h3>End-to-End Solutions</h3>
-      <p>From planning and installation to maintenance and support, we handle everything so you can focus on your guests.</p>
-    </div>
-    <div class="why-item">
-      <div class="why-num">04</div>
-      <h3>Scalable Technology</h3>
-      <p>Solutions designed to grow alongside your business, from a single location to a multi-site operation.</p>
+    <h2 class="section-title reveal d1">Why Houston Businesses <strong>Trust Us</strong></h2>
+    <div class="why-grid reveal d2">
+      <div class="why-item"><div class="why-num">01</div><h3>Industry Expertise</h3><p>Specialized technology solutions tailored for Houston restaurants and hospitality operations — we speak your language.</p></div>
+      <div class="why-item"><div class="why-num">02</div><h3>Reliable Support</h3><p>Fast response times and dependable technical assistance when you need it most. We're never far away.</p></div>
+      <div class="why-item"><div class="why-num">03</div><h3>End-to-End Solutions</h3><p>From planning and installation to maintenance and support, we handle everything so you can focus on your guests.</p></div>
+      <div class="why-item"><div class="why-num">04</div><h3>Scalable Technology</h3><p>Solutions designed to grow alongside your business, from a single location to a multi-site operation.</p></div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ─── SERVICES ─── -->
+<!-- ── SERVICES ── -->
 <section id="services">
-  <div class="services-intro">
-    <div>
-      <div class="section-label reveal">What We Do</div>
-      <h2 class="section-title reveal reveal-delay-1">Comprehensive <strong>Services</strong></h2>
-    </div>
-    <p class="section-body reveal reveal-delay-2" style="align-self:end;">
-      From your first consultation to ongoing support, TableTek provides every technology service your restaurant needs to run at its best.
-    </p>
-  </div>
-
-  <div class="services-grid">
-    <!-- POS -->
-    <div class="service-card reveal">
-      <div class="service-icon">
-        <div class="service-icon-ring">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
-          </svg>
-        </div>
+  <div class="inner">
+    <div class="services-intro">
+      <div>
+        <div class="section-label reveal">What We Do</div>
+        <h2 class="section-title reveal d1">Comprehensive <strong>Services</strong></h2>
       </div>
-      <h3>POS Systems</h3>
-      <p>Industry-leading point-of-sale solutions that streamline ordering, payments, inventory, and customer engagement.</p>
-      <ul class="service-list">
-        <li>POS consultation & selection</li>
-        <li>New installations & migrations</li>
-        <li>Payment terminal integration</li>
-        <li>Staff training & software updates</li>
-      </ul>
+      <p class="section-body reveal d2" style="align-self:end">From your first consultation to ongoing support, TableTek provides every technology service your Houston restaurant needs to run at its best.</p>
     </div>
-    <!-- Network -->
-    <div class="service-card reveal reveal-delay-1">
-      <div class="service-icon">
-        <div class="service-icon-ring">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-          </svg>
-        </div>
+    <div class="services-grid">
+      <div class="svc-card reveal">
+        <div class="svc-icon-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>POS Systems</h3>
+        <p>Industry-leading point-of-sale solutions that streamline ordering, payments, inventory, and customer engagement.</p>
+        <ul class="svc-list"><li>POS consultation & selection</li><li>New installations & migrations</li><li>Payment terminal integration</li><li>Staff training & software updates</li></ul>
       </div>
-      <h3>Network Solutions</h3>
-      <p>Stable, secure business networks designed for modern restaurant operations — always connected, always fast.</p>
-      <ul class="service-list">
-        <li>Network design & router config</li>
-        <li>Firewall & security setup</li>
-        <li>Wireless & guest Wi-Fi</li>
-        <li>Troubleshooting & optimization</li>
-      </ul>
-    </div>
-    <!-- Cable -->
-    <div class="service-card reveal reveal-delay-2">
-      <div class="service-icon">
-        <div class="service-icon-ring">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </div>
+      <div class="svc-card reveal d1">
+        <div class="svc-icon-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+        <h3>Network Solutions</h3>
+        <p>Stable, secure business networks designed for modern restaurant operations — always connected, always fast.</p>
+        <ul class="svc-list"><li>Network design & router config</li><li>Firewall & security setup</li><li>Wireless & guest Wi-Fi</li><li>Troubleshooting & optimization</li></ul>
       </div>
-      <h3>Cable Management</h3>
-      <p>Clean, organized cabling that improves reliability, safety, and maintenance accessibility throughout your facility.</p>
-      <ul class="service-list">
-        <li>Structured cabling installation</li>
-        <li>Equipment rack organization</li>
-        <li>Cable labeling & cleanup</li>
-        <li>Relocation & upgrades</li>
-      </ul>
-    </div>
-    <!-- Installation -->
-    <div class="service-card reveal reveal-delay-3">
-      <div class="service-icon">
-        <div class="service-icon-ring">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
-          </svg>
-        </div>
+      <div class="svc-card reveal d2">
+        <div class="svc-icon-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div>
+        <h3>Cable Management</h3>
+        <p>Clean, organized cabling that improves reliability, safety, and maintenance accessibility throughout your facility.</p>
+        <ul class="svc-list"><li>Structured cabling installation</li><li>Equipment rack organization</li><li>Cable labeling & cleanup</li><li>Relocation & upgrades</li></ul>
       </div>
-      <h3>Installation Services</h3>
-      <p>Professional deployment from a single terminal to a complete restaurant technology rollout — on time, on spec.</p>
-      <ul class="service-list">
-        <li>Full POS deployment</li>
-        <li>Printer & KDS installation</li>
-        <li>Device mounting & integration</li>
-        <li>Payment terminal setup</li>
-      </ul>
-    </div>
-    <!-- Maintenance -->
-    <div class="service-card reveal reveal-delay-1">
-      <div class="service-icon">
-        <div class="service-icon-ring">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M12 6v6l4 2"/>
-          </svg>
-        </div>
+      <div class="svc-card reveal d3">
+        <div class="svc-icon-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+        <h3>Installation Services</h3>
+        <p>Professional deployment from a single terminal to a complete restaurant technology rollout — on time, on spec.</p>
+        <ul class="svc-list"><li>Full POS deployment</li><li>Printer & KDS installation</li><li>Device mounting & integration</li><li>Payment terminal setup</li></ul>
       </div>
-      <h3>Maintenance Services</h3>
-      <p>Prevent problems before they impact your business with proactive maintenance and performance optimization.</p>
-      <ul class="service-list">
-        <li>Preventive maintenance plans</li>
-        <li>System inspections & tune-ups</li>
-        <li>Software updates & patching</li>
-        <li>Hardware replacement planning</li>
-      </ul>
-    </div>
-    <!-- Support -->
-    <div class="service-card reveal reveal-delay-2">
-      <div class="service-icon">
-        <div class="service-icon-ring">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .98h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-          </svg>
-        </div>
+      <div class="svc-card reveal d1">
+        <div class="svc-icon-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3>Maintenance Services</h3>
+        <p>Prevent problems before they impact your business with proactive maintenance and performance optimization.</p>
+        <ul class="svc-list"><li>Preventive maintenance plans</li><li>System inspections & tune-ups</li><li>Software updates & patching</li><li>Hardware replacement planning</li></ul>
       </div>
-      <h3>Technical Support</h3>
-      <p>When issues arise, TableTek is ready to help — remote or on-site, with fast response times and experienced techs.</p>
-      <ul class="service-list">
-        <li>Remote & on-site service</li>
-        <li>Emergency assistance</li>
-        <li>POS & network diagnostics</li>
-        <li>Hardware troubleshooting</li>
-      </ul>
+      <div class="svc-card reveal d2">
+        <div class="svc-icon-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .98h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <h3>Technical Support</h3>
+        <p>When issues arise, TableTek is ready to help — remote or on-site, with fast response times and experienced techs.</p>
+        <ul class="svc-list"><li>Remote & on-site service</li><li>Emergency assistance</li><li>POS & network diagnostics</li><li>Hardware troubleshooting</li></ul>
+      </div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ─── INDUSTRIES ─── -->
+<!-- ── INDUSTRIES ── -->
 <section id="industries">
-  <div class="industries-inner">
-    <div class="industries-header">
+  <div class="inner">
+    <div class="ind-header">
       <div>
         <div class="section-label reveal">Who We Serve</div>
-        <h2 class="section-title reveal reveal-delay-1">Industries We <strong>Serve</strong></h2>
+        <h2 class="section-title reveal d1">Industries We <strong>Serve</strong></h2>
       </div>
-      <p class="section-body reveal reveal-delay-2">
-        Our solutions are purpose-built for the fast-paced demands of the food and hospitality industry. Wherever food is served, we keep the technology running.
-      </p>
+      <p class="section-body reveal d2" style="align-self:end">Purpose-built for the fast-paced demands of the food and hospitality industry across the Greater Houston area.</p>
     </div>
-    <div class="industries-strip reveal reveal-delay-2">
-      <div class="industry-item">
-        <span class="ind-icon">🍽️</span>
-        <h4>Restaurants</h4>
-        <p>Quick-service, casual dining, and fine dining establishments</p>
-      </div>
-      <div class="industry-item">
-        <span class="ind-icon">☕</span>
-        <h4>Cafés & Coffee</h4>
-        <p>Reliable tech for fast-paced café environments</p>
-      </div>
-      <div class="industry-item">
-        <span class="ind-icon">🍺</span>
-        <h4>Bars & Nightlife</h4>
-        <p>High-volume POS and networking solutions</p>
-      </div>
-      <div class="industry-item">
-        <span class="ind-icon">🚚</span>
-        <h4>Food Trucks</h4>
-        <p>Mobile technology designed for flexibility</p>
-      </div>
-      <div class="industry-item">
-        <span class="ind-icon">🏨</span>
-        <h4>Hospitality</h4>
-        <p>Hotels, resorts, and event venue support</p>
-      </div>
+    <div class="ind-strip reveal d2">
+      <div class="ind-item"><span class="ind-icon">🍽️</span><h4>Restaurants</h4><p>Quick-service, casual dining, and fine dining</p></div>
+      <div class="ind-item"><span class="ind-icon">☕</span><h4>Cafés & Coffee</h4><p>Reliable tech for fast-paced café environments</p></div>
+      <div class="ind-item"><span class="ind-icon">🍺</span><h4>Bars & Nightlife</h4><p>High-volume POS and networking solutions</p></div>
+      <div class="ind-item"><span class="ind-icon">🚚</span><h4>Food Trucks</h4><p>Mobile technology designed for flexibility</p></div>
+      <div class="ind-item"><span class="ind-icon">🏨</span><h4>Hospitality</h4><p>Hotels, resorts, and event venue support</p></div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ─── PROCESS ─── -->
+<!-- ── PROCESS ── -->
 <section id="process">
-  <div class="process-inner">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:0;">
+  <div class="inner">
+    <div class="process-header">
       <div>
         <div class="section-label reveal">Our Approach</div>
-        <h2 class="section-title reveal reveal-delay-1">How We <strong>Work</strong></h2>
+        <h2 class="section-title reveal d1">How We <strong>Work</strong></h2>
       </div>
-      <p class="section-body reveal reveal-delay-2" style="align-self:end;">
-        Our proven process ensures every deployment is seamless, every system is optimized, and every client feels fully supported.
-      </p>
+      <p class="section-body reveal d2" style="align-self:end">Our proven process ensures every deployment is seamless, every system is optimized, and every client feels fully supported.</p>
     </div>
     <div class="process-track">
-      <div class="process-step reveal">
-        <div class="step-circle"><span class="step-num">1</span></div>
-        <div class="step-title">Consultation</div>
-        <div class="step-desc">We evaluate your business needs and technology requirements in depth.</div>
-      </div>
-      <div class="process-step reveal reveal-delay-1">
-        <div class="step-circle"><span class="step-num">2</span></div>
-        <div class="step-title">Planning</div>
-        <div class="step-desc">Our team designs a customized solution tailored to your operation.</div>
-      </div>
-      <div class="process-step reveal reveal-delay-2">
-        <div class="step-circle"><span class="step-num">3</span></div>
-        <div class="step-title">Installation</div>
-        <div class="step-desc">Professional deployment with minimal disruption to your business.</div>
-      </div>
-      <div class="process-step reveal reveal-delay-3">
-        <div class="step-circle"><span class="step-num">4</span></div>
-        <div class="step-title">Training</div>
-        <div class="step-desc">We ensure your staff is confident and comfortable using the system.</div>
-      </div>
-      <div class="process-step reveal reveal-delay-4">
-        <div class="step-circle"><span class="step-num">5</span></div>
-        <div class="step-title">Ongoing Support</div>
-        <div class="step-desc">Continued maintenance and technical assistance whenever needed.</div>
-      </div>
+      <div class="process-step reveal"><div class="step-circle"><span class="step-num">1</span></div><div class="step-title">Consultation</div><div class="step-desc">We evaluate your needs and technology requirements in depth.</div></div>
+      <div class="process-step reveal d1"><div class="step-circle"><span class="step-num">2</span></div><div class="step-title">Planning</div><div class="step-desc">Our team designs a customized solution for your operation.</div></div>
+      <div class="process-step reveal d2"><div class="step-circle"><span class="step-num">3</span></div><div class="step-title">Installation</div><div class="step-desc">Professional deployment with minimal business disruption.</div></div>
+      <div class="process-step reveal d3"><div class="step-circle"><span class="step-num">4</span></div><div class="step-title">Training</div><div class="step-desc">We ensure your staff is confident using the system.</div></div>
+      <div class="process-step reveal d4"><div class="step-circle"><span class="step-num">5</span></div><div class="step-title">Ongoing Support</div><div class="step-desc">Continued maintenance and assistance whenever needed.</div></div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ─── TESTIMONIALS ─── -->
+<!-- ── TESTIMONIALS ── -->
 <section id="testimonials">
-  <div class="testimonials-inner">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:0;">
+  <div class="inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end">
       <div>
         <div class="section-label reveal">Client Feedback</div>
-        <h2 class="section-title reveal reveal-delay-1">What Our <strong>Clients Say</strong></h2>
+        <h2 class="section-title reveal d1">What Our <strong>Clients Say</strong></h2>
       </div>
     </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card reveal">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"TableTek transformed our restaurant technology setup. Their installation was smooth, and support has been outstanding ever since."</p>
-        <div class="testimonial-author">— Restaurant Client</div>
-      </div>
-      <div class="testimonial-card reveal reveal-delay-1">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Their network and POS expertise saved us hours of downtime and a ton of frustration. I can't imagine running our operation without them."</p>
-        <div class="testimonial-author">— Bar & Grill Owner</div>
-      </div>
-      <div class="testimonial-card reveal reveal-delay-2">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Professional, responsive, and knowledgeable. TableTek is exactly the kind of tech partner every restaurant needs. Highly recommended."</p>
-        <div class="testimonial-author">— Café Manager</div>
-      </div>
+    <div class="test-grid">
+      <div class="test-card reveal"><div class="stars">★★★★★</div><p class="test-text">"TableTek transformed our restaurant technology setup. Their installation was smooth, and support has been outstanding ever since."</p><div class="test-author">— Houston Restaurant Client</div></div>
+      <div class="test-card reveal d1"><div class="stars">★★★★★</div><p class="test-text">"Their network and POS expertise saved us hours of downtime and a ton of frustration. Can't imagine running without them."</p><div class="test-author">— Bar & Grill Owner, Houston</div></div>
+      <div class="test-card reveal d2"><div class="stars">★★★★★</div><p class="test-text">"Professional, responsive, and knowledgeable. TableTek is exactly the kind of tech partner every restaurant needs."</p><div class="test-author">— Café Manager, Houston TX</div></div>
     </div>
   </div>
 </section>
 
-<!-- ─── CTA BANNER ─── -->
+<!-- ── CTA BANNER ── -->
 <div id="cta">
   <div class="cta-inner">
     <div class="cta-text">
       <h2>Ready to Upgrade Your Restaurant Technology?</h2>
-      <p>Whether you're opening a new location, upgrading your POS, or need dependable technical support — TableTek Systems is here to help.</p>
+      <p>Whether you're opening a new Houston location, upgrading your POS, or need dependable technical support — TableTek Systems is here to help.</p>
     </div>
     <div class="cta-actions">
       <a href="#contact" class="btn-dark">Schedule a Consultation</a>
-      <a href="tel:" class="btn-outline-dark">Call Now</a>
+      <a href="tel:8327795587" class="btn-outline-dark">Call Now</a>
     </div>
   </div>
 </div>
 
-<!-- ─── CONTACT ─── -->
+<!-- ── CONTACT ── -->
 <section id="contact">
   <div class="contact-inner">
     <div class="contact-info">
       <div class="section-label reveal">Get In Touch</div>
-      <h2 class="reveal reveal-delay-1">Let's Talk <strong>Technology</strong></h2>
-      <p class="reveal reveal-delay-2">
-        Ready to get started or have a question? Reach out and a member of our team will get back to you promptly.
-      </p>
+      <h2 class="reveal d1">Let's Talk <strong>Technology</strong></h2>
+      <p class="reveal d2">Ready to get started or have a question? Reach out and a member of our team will get back to you promptly.</p>
       <div class="contact-details">
-        <div class="contact-detail reveal reveal-delay-2">
-          <div class="contact-detail-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .98h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-            </svg>
-          </div>
-          <div class="contact-detail-text">
-            <div class="label">Phone</div>
-            <div class="value">(Insert Phone Number)</div>
-          </div>
+        <div class="contact-detail reveal d2">
+          <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 .98h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div class="cd-text"><div class="lbl">Phone</div><div class="val"><a href="tel:8327795587">(832) 779-5587</a></div></div>
         </div>
-        <div class="contact-detail reveal reveal-delay-3">
-          <div class="contact-detail-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-            </svg>
-          </div>
-          <div class="contact-detail-text">
-            <div class="label">Email</div>
-            <div class="value">(Insert Email Address)</div>
-          </div>
+        <div class="contact-detail reveal d3">
+          <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="cd-text"><div class="lbl">Email</div><div class="val"><a href="mailto:alexzhang.tabletek@gmail.com">alexzhang.tabletek@gmail.com</a></div></div>
         </div>
-        <div class="contact-detail reveal reveal-delay-4">
-          <div class="contact-detail-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-          </div>
-          <div class="contact-detail-text">
-            <div class="label">Business Hours</div>
-            <div class="value">Mon – Fri: 8:00 AM – 6:00 PM<br><span style="font-size:0.82rem;color:var(--gold);">Emergency Support Available</span></div>
-          </div>
+        <div class="contact-detail reveal d4">
+          <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="cd-text"><div class="lbl">Business Hours</div><div class="val">Mon – Fri: 8:00 AM – 6:00 PM<br><span style="font-size:.8rem;color:var(--gold)">Emergency Support Available</span></div></div>
         </div>
-        <div class="contact-detail reveal reveal-delay-5">
-          <div class="contact-detail-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
-            </svg>
-          </div>
-          <div class="contact-detail-text">
-            <div class="label">Service Area</div>
-            <div class="value">(Insert Service Area)</div>
-          </div>
+        <div class="contact-detail reveal d5">
+          <div class="cd-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="cd-text"><div class="lbl">Service Area</div><div class="val">Houston, TX & Greater Houston Area</div></div>
         </div>
       </div>
     </div>
-
-    <div class="contact-form reveal reveal-delay-2">
+    <div class="contact-form reveal d2">
       <div class="form-title">Request a Consultation</div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" placeholder="Your name">
-        </div>
-        <div class="form-group">
-          <label>Business Name</label>
-          <input type="text" placeholder="Your business">
-        </div>
+        <div class="form-group"><label>Name</label><input type="text" placeholder="Your name"></div>
+        <div class="form-group"><label>Business Name</label><input type="text" placeholder="Your restaurant"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Phone Number</label>
-          <input type="tel" placeholder="(000) 000-0000">
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" placeholder="you@business.com">
-        </div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="(000) 000-0000"></div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@business.com"></div>
       </div>
       <div class="form-group">
         <label>Service Needed</label>
@@ -1690,23 +593,20 @@
           <option>Multiple Services</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Message</label>
-        <textarea placeholder="Tell us about your needs or current situation..."></textarea>
-      </div>
-      <button class="form-submit">Submit Request</button>
+      <div class="form-group"><label>Message</label><textarea placeholder="Tell us about your needs or current situation..."></textarea></div>
+      <button class="form-submit" id="form-submit">Submit Request</button>
     </div>
   </div>
 </section>
 
-<!-- ─── FOOTER ─── -->
+<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
         <div class="logo">Table<span>Tek</span> Systems</div>
         <div class="tagline">Restaurant Systems · Smart Solutions · Real Support</div>
-        <p>Comprehensive technology solutions designed specifically for restaurants, cafés, bars, food trucks, and hospitality businesses.</p>
+        <p>Comprehensive technology solutions for restaurants, cafés, bars, food trucks, and hospitality businesses across Houston, TX.</p>
       </div>
       <div class="footer-col">
         <h4>Services</h4>
@@ -1720,90 +620,66 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Quick Links</h4>
+        <h4>Contact</h4>
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#industries">Industries</a></li>
-          <li><a href="#process">Our Process</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="tel:8327795587">(832) 779-5587</a></li>
+          <li><a href="mailto:alexzhang.tabletek@gmail.com">alexzhang.tabletek@gmail.com</a></li>
+          <li><a href="#contact">Houston, TX</a></li>
+          <li><a href="#contact">Get a Quote</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 TableTek Systems. All rights reserved.</p>
-      <div class="tagline-full">Restaurant Systems · Smart Solutions · Real Support</div>
+      <p>© 2026 TableTek Systems. All rights reserved.</p>
+      <div class="tline">Restaurant Systems · Smart Solutions · Real Support</div>
     </div>
   </div>
 </footer>
 
 <script>
-  // ─── NAV SCROLL EFFECT ───
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 60) navbar.classList.add('scrolled');
-    else navbar.classList.remove('scrolled');
+// Nav scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+reveals.forEach(r => observer.observe(r));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
+});
 
-  // ─── REVEAL ON SCROLL ───
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  reveals.forEach(r => observer.observe(r));
-
-  // ─── SMOOTH ANCHOR ───
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // ─── MOBILE MENU TOGGLE ───
-  let menuOpen = false;
-  const navLinks = document.querySelector('.nav-links');
-  function toggleMobileMenu() {
-    menuOpen = !menuOpen;
-    if (menuOpen) {
-      navLinks.style.display = 'flex';
-      navLinks.style.flexDirection = 'column';
-      navLinks.style.position = 'absolute';
-      navLinks.style.top = '70px';
-      navLinks.style.left = '0';
-      navLinks.style.right = '0';
-      navLinks.style.background = 'rgba(10,10,10,0.98)';
-      navLinks.style.padding = '30px 24px 40px';
-      navLinks.style.gap = '24px';
-      navLinks.style.borderBottom = '1px solid rgba(201,168,76,0.15)';
-    } else {
-      navLinks.style.display = '';
-      navLinks.style.position = '';
-      navLinks.style.top = '';
-      navLinks.style.flexDirection = '';
-      navLinks.style.background = '';
-      navLinks.style.padding = '';
-    }
+// Mobile menu
+let menuOpen = false;
+const navLinks = document.querySelector('.nav-links');
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  if (menuOpen) {
+    navLinks.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:rgba(10,10,10,.97);padding:28px 22px 36px;gap:22px;border-bottom:1px solid rgba(201,168,76,.15)';
+  } else {
+    navLinks.style.cssText = '';
   }
+}
 
-  // ─── FORM SUBMIT ───
-  document.querySelector('.form-submit').addEventListener('click', function() {
-    this.textContent = 'Request Sent ✓';
-    this.style.background = '#2a6a2a';
-    this.style.color = '#fff';
-    setTimeout(() => {
-      this.textContent = 'Submit Request';
-      this.style.background = '';
-      this.style.color = '';
-    }, 3000);
-  });
+// Form submit
+document.getElementById('form-submit').addEventListener('click', function() {
+  this.textContent = 'Request Sent ✓';
+  this.style.cssText = 'background:#2a6a2a;color:#fff;width:100%;padding:14px;border:none;border-radius:2px;font-family:inherit;font-size:.82rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:default';
+  setTimeout(() => {
+    this.textContent = 'Submit Request';
+    this.style.cssText = '';
+  }, 3500);
+});
 </script>
 </body>
 </html>
